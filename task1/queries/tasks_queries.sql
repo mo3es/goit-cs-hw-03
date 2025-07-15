@@ -1,0 +1,14 @@
+SELECT * FROM tasks WHERE user_id = 1;
+SELECT * FROM tasks WHERE status_id = (SELECT id FROM task_status WHERE name = 'new');
+UPDATE tasks SET status_id = (SELECT id FROM task_status WHERE name = 'completed') WHERE id = 12;
+SELECT * FROM users WHERE id NOT IN (SELECT user_id FROM tasks);
+INSERT INTO tasks (title, description, status_id, user_id) VALUES ('Inserted_task', 'ABABAGALAMAGA', (SELECT id FROM task_status WHERE name = 'new'), 3);
+SELECT * FROM tasks WHERE status_id != (SELECT id FROM task_status WHERE name = 'completed');
+DELETE FROM tasks WHERE id = 33;
+SELECT * FROM users WHERE email LIKE '%@example.com';
+UPDATE users SET fullname='Boromir Faramirovich Dunadanchenko' WHERE id=12;
+SELECT task_status.name AS status_name, COUNT(tasks.id) AS status_count FROM task_status LEFT JOIN tasks ON task_status.id = tasks.status_id GROUP BY task_status.name ORDER BY status_count DESC; 
+SELECT tasks.* FROM tasks JOIN users ON tasks.user_id = users.id WHERE users.email LIKE '%@example.com';
+SELECT title FROM tasks WHERE description IS NULL OR description = '';
+SELECT users.fullname, tasks.title, tasks.description FROM users JOIN tasks ON users.id = tasks.user_id WHERE tasks.status_id = (SELECT id FROM task_status WHERE name = 'in progress');
+SELECT users.fullname AS name, COUNT(users.id) AS tasks_count FROM users LEFT JOIN tasks ON users.id = tasks.user_id GROUP BY users.id ORDER BY tasks_count DESC, users.fullname;
